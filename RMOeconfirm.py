@@ -3,10 +3,10 @@ from package2.config import *
 from package3.config import *
 import argparse, time, random, datetime
 
-# Argument Parser - 1. used team, 2. variability for testing #
+# Argument Parser - 1. used team, 2. variability for changing the amount of investment #
 parser = argparse.ArgumentParser()
 parser.add_argument('-t', '--used_team', help='Pick the team that you would like to use')
-parser.add_argument('-v', '--variability', help='Set the % of balance you want to invest each time')
+parser.add_argument('-p', '--percentage', help='Set the % of balance you want to invest each time')
 args = parser.parse_args()
 
 # Pick which team you would like to use #
@@ -25,7 +25,7 @@ else:
     print('Incorrect arg')
     exit()
 
-percentage_of_balance_invested = int(float(args.variability))
+percentage_of_balance_invested = int(float(args.percentage))
 subreddit = executive_bot.subreddit('MemeEconomy')
 now = datetime.datetime.now()
 
@@ -128,6 +128,8 @@ while True:
                 else:
                     continue
             log('Sleeping...', bot)
+            # Sleep for 8 minutes and 1 second, which should be enough time to 
+            # cancel out the 'YOU'RE DOING TOO MUCH MESSAGE
             time.sleep(481)
 
             # Wait 4 hours and 1 minute to get the rewards for each of the bots #
