@@ -133,7 +133,7 @@ while True:
             time.sleep(481)
 
             # Wait 4 hours and 1 minute to get the rewards for each of the bots #
-    log('Sleeping')
+    log('Done with the investment cycle, going into diagnostics...')
     time.sleep(14460)
     # Diagnostics mode #
     # For every bot, copy and paste the final thing into the log file #
