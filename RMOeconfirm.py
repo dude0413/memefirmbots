@@ -6,6 +6,7 @@ import argparse, time, random, datetime
 # Argument Parser - 1. used team, 2. variability for testing #
 parser = argparse.ArgumentParser()
 parser.add_argument('-t', '--used_team', help='Pick the team that you would like to use')
+parser.add_argument('-v', '--variability', help='Set the % of balance you want to invest each time')
 args = parser.parse_args()
 
 # Pick which team you would like to use #
@@ -24,6 +25,7 @@ else:
     print('Incorrect arg')
     exit()
 
+percentage_of_balance_invested = int(float(args.variability))
 subreddit = executive_bot.subreddit('MemeEconomy')
 now = datetime.datetime.now()
 
@@ -38,6 +40,7 @@ def append_to_invested_file(post_id):
         I.write(post_id + '\n')
 # Log function #
 def log(input, bot_used=executive_bot):
+    now = datetime.datetime.now()
     message = str(bot_used.user.me()) + ': ' + str(input) + '\n' + str(now.strftime('%m-%d %H:%M:%S'))
     print(message)
     with open(log_file_name, 'a') as l:
@@ -45,6 +48,7 @@ def log(input, bot_used=executive_bot):
 
 # Finds the balance, invests into the post, and uses the log function to document #
 def invest(post_id, bot_name):
+    global investment_boolean
     investment_boolean = True
     # Configure each bot #
     # Get balance #
@@ -52,6 +56,9 @@ def invest(post_id, bot_name):
     for item in bot_name.inbox.comment_replies(limit=10):
         if item.author == "MemeInvestor_bot":
             inbox_comment_reply_list.append(item.body)
+    for item_filtering in inbox_comment_reply_list:
+        if item_filtering.split(' ', 1)[0] == 'Firm' or 'The' or 'Hey':
+            del inbox_comment_reply_list[0]
     inbox_message = inbox_comment_reply_list[0]
     message_breakdown = inbox_message.split(" ")
 
@@ -63,10 +70,11 @@ def invest(post_id, bot_name):
     for comment in investment_submission.comments:
         if comment.author == 'MemeInvestor_bot':
             amount = round(balance)
+            amount = amount * percentage_of_balance_invested
             try:
                 comment.reply('!invest ' + str(amount))
                 append_to_invested_file(post_id)
-                log(str(bot_name.user.me()) + ' has invested in ' + str(post_id))
+                log(str(bot_name.user.me()) + ' has invested in ' + str(post_id) + ' with ' + str(amount) + ' memecoins')
             except praw.exceptions.APIException:
                 print('Got the rate limit, exiting now...')
                 exit()
@@ -105,14 +113,16 @@ while True:
                     time_boolean_sixty = age < datetime.timedelta(minutes=60)
                     # Less than 10 minutes old #
                     time_boolean_ten = age < datetime.timedelta(minutes=10)
+                    qualification_message = 'The post qualified because it was... '
                     if time_boolean_twenty_five_old == False and upvotes_on_post > 35:
                         invest(submission_id, bot)
+                        log(qualification_message + 'Less than 25 minutes old and had more than 35 upvotes.')
                     elif time_boolean_sixty == True and time_boolean_twenty_five_old == True and 100 > upvotes_on_post > 35:
                         invest(submission_id, bot)
-                    elif time_boolean_sixty == True and 180 > upvotes_on_post > 70:
-                        invest(submission_id, bot)
+                        log(qualification_message + 'Less than 60 minutes old and had between 100 and 35 upvotes.')
                     elif time_boolean_ten == True and upvotes_on_post > 25:
                         invest(submission_id, bot)
+                        log(qualification_message + 'Less than 10 years old and had more than 25 upvotes.')
                     else:
                         continue
                 else:
