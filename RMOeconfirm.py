@@ -127,8 +127,8 @@ while True:
                         continue
                 else:
                     continue
-        log("My bots couldn't find anything... Sleeping for 10 minutes")
-        time.sleep(600)
+            log('Sleeping...', bot)
+            time.sleep(481)
 
             # Wait 4 hours and 1 minute to get the rewards for each of the bots #
     log('Sleeping')
