@@ -30,8 +30,6 @@ def log(input, bot_used=executive_bot):
 
 # Finds the balance, invests into the post, and uses the log function to document #
 def invest(post_id, bot_name):
-    global investment_boolean
-    investment_boolean = True
     # Configure each bot #
     # Get balance #
     inbox_comment_reply_list = []
@@ -98,12 +96,15 @@ while True:
                     if time_boolean_twenty_five_old == False and upvotes_on_post > 35:
                         invest(submission_id, bot)
                         log(qualification_message + 'Less than 25 minutes old and had more than 35 upvotes.')
+                        investment_boolean = True
                     elif time_boolean_sixty == True and time_boolean_twenty_five_old == True and 100 > upvotes_on_post > 35:
                         invest(submission_id, bot)
                         log(qualification_message + 'Less than 60 minutes old and had between 100 and 35 upvotes.')
+                        investment_boolean = True
                     elif time_boolean_ten == True and upvotes_on_post > 25:
                         invest(submission_id, bot)
                         log(qualification_message + 'Less than 10 minutes old and had more than 25 upvotes.')
+                        investment_boolean = True
                     else:
                         continue
                 else:
