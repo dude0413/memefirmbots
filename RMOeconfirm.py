@@ -6,7 +6,6 @@ import argparse, time, random, datetime
 # Argument Parser - 1. used team, 2. variability for changing the amount of investment #
 parser = argparse.ArgumentParser()
 parser.add_argument('-t', '--used_team', help='Pick the team that you would like to use')
-parser.add_argument('-p', '--percentage', help='Set the % of balance you want to invest each time')
 args = parser.parse_args()
 
 # Pick which team you would like to use #
@@ -25,7 +24,7 @@ else:
     print('Incorrect arg')
     exit()
 
-percentage_of_balance_invested = int(float(args.percentage))
+percentage_of_balance_invested = int(0.8)
 subreddit = executive_bot.subreddit('MemeEconomy')
 now = datetime.datetime.now()
 
@@ -69,8 +68,7 @@ def invest(post_id, bot_name):
     investment_submission.upvote()
     for comment in investment_submission.comments:
         if comment.author == 'MemeInvestor_bot':
-            amount = round(balance)
-            amount = amount * percentage_of_balance_invested
+            amount = round(balance * percentage_of_balance_invested)
             try:
                 comment.reply('!invest ' + str(amount))
                 append_to_invested_file(post_id)
