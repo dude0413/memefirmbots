@@ -63,11 +63,11 @@ def invest(post_id, bot_name):
     log('Investing into ' + str(post_id), bot_name)
 
 while True:
-    investment_boolean = False
-    while investment_boolean == False:
-        log('Entering Searching Mode with my bots...')
-        # Tracking and Investing Mode - should take 1 hour #
-        for bot in bot_list:
+    log('Entering Searching Mode with my bots...')
+    # Tracking and Investing Mode - should take 1 hour #
+    for bot in bot_list:
+        investment_boolean = False
+        while investment_boolean == False:
             log('Searching...', bot)
             for submission in subreddit.new(limit=20):
                 submission_id = submission.id
@@ -108,12 +108,11 @@ while True:
                         continue
                 else:
                     continue
-            log('Sleeping...', bot)
-            # Sleep for 8 minutes and 1 second, which should be enough time to
-            # cancel out the 'YOU'RE DOING TOO MUCH MESSAGE
-            time.sleep(481)
-
-            # Wait 4 hours and 1 minute to get the rewards for each of the bots #
+        log('Sleeping...', bot)
+        # Sleep for 8 minutes and 1 second, which should be enough time to
+        # cancel out the 'YOU'RE DOING TOO MUCH MESSAGE
+        time.sleep(481)
+    # Wait 4 hours and 1 minute to get the rewards for each of the bots #
     log('Done with the investment cycle, going into diagnostics...')
     time.sleep(14460)
     # Diagnostics mode #
