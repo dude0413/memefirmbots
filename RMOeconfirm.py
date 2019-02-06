@@ -54,11 +54,11 @@ def invest(post_id, bot_name):
     # Get balance #
     inbox_comment_reply_list = []
     for item in bot_name.inbox.comment_replies(limit=10):
+        body = item.body
+        warning_words = ['Firm:', 'The', 'Hey']
         if item.author == "MemeInvestor_bot":
-            inbox_comment_reply_list.append(item.body)
-    for item_filtering in inbox_comment_reply_list:
-        if item_filtering.split(' ', 1)[0] == 'Firm' or 'The' or 'Hey':
-            del inbox_comment_reply_list[0]
+            if not any(word in body.split(' ', 1)[0] for word in warning_words):
+                inbox_comment_reply_list.append(body)
     inbox_message = inbox_comment_reply_list[0]
     message_breakdown = inbox_message.split(" ")
 
