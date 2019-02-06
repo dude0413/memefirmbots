@@ -1,30 +1,13 @@
 from package.config import *
 from package2.config import *
 from package3.config import *
-import argparse, time, random, datetime
+import time, random, datetime
+version = '0.9'
 
-# Argument Parser - 1. used team, 2. variability for changing the amount of investment #
-parser = argparse.ArgumentParser()
-parser.add_argument('-t', '--used_team', help='Pick the team that you would like to use')
-args = parser.parse_args()
+executive_bot = JDR_bot
+bot_list = team_1_bot_list
 
-# Pick which team you would like to use #
-if args.used_team == '1':
-    executive_bot = JDR_bot
-    bot_list = team_1_bot_list
-    print('Using Team 1. The lineup is: JDR_bot and bots 1,2,3,4, and 5')
-elif args.used_team == '2':
-    executive_bot = WB_bot
-    bot_list = team_2_bot_list
-    print('Using Team 2. The lineup is: WB_bot and bots 6,7,8,9, and 10')
-elif args.used_team == '3':
-    bot_list = team_3_bot_list
-    print('Using your personal bot, sir.')
-else:
-    print('Incorrect arg')
-    exit()
-
-percentage_of_balance_invested = int(0.8)
+percentage_of_balance_invested = float(0.8)
 subreddit = executive_bot.subreddit('MemeEconomy')
 now = datetime.datetime.now()
 
@@ -86,7 +69,7 @@ while True:
         # Tracking and Investing Mode - should take 1 hour #
         for bot in bot_list:
             log('Searching...', bot)
-            for submission in subreddit.new(limit=15):
+            for submission in subreddit.new(limit=20):
                 submission_id = submission.id
                 # Open the investments txt file and see if the submission id is in there, if not, continue
                 with open(invested_file_name) as r:
@@ -120,13 +103,13 @@ while True:
                         log(qualification_message + 'Less than 60 minutes old and had between 100 and 35 upvotes.')
                     elif time_boolean_ten == True and upvotes_on_post > 25:
                         invest(submission_id, bot)
-                        log(qualification_message + 'Less than 10 years old and had more than 25 upvotes.')
+                        log(qualification_message + 'Less than 10 minutes old and had more than 25 upvotes.')
                     else:
                         continue
                 else:
                     continue
             log('Sleeping...', bot)
-            # Sleep for 8 minutes and 1 second, which should be enough time to 
+            # Sleep for 8 minutes and 1 second, which should be enough time to
             # cancel out the 'YOU'RE DOING TOO MUCH MESSAGE
             time.sleep(481)
 
