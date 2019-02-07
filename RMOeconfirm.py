@@ -1,7 +1,7 @@
 from package.config import *
 from package2.config import *
 from package3.config import *
-import time, random, datetime, os
+import time, random, os
 from datetime import datetime, time
 version = '0.9'
 
@@ -26,7 +26,7 @@ def append_to_invested_file(post_id):
         I.write(post_id + '\n')
 # Log function #
 def log(input, bot_used=executive_bot):
-    now = datetime.datetime.now()
+    now = datetime.now()
     message = str(bot_used.user.me()) + ': ' + str(input) + '\n' + str(now.strftime('%m-%d %H:%M:%S'))
     print(message)
     with open(log_file_name, 'a') as l:
@@ -88,8 +88,8 @@ while True:
                     already_invested_investments = list(filter(None, already_invested_investments))
                 if submission_id not in already_invested_investments and investment_boolean == False:
                     submission_created_formatted = submission.created_utc
-                    submission_time = datetime.datetime.utcfromtimestamp(submission_created_formatted)
-                    age = (datetime.datetime.now() - submission_time)
+                    submission_time = datetime.utcfromtimestamp(submission_created_formatted)
+                    age = (datetime.now() - submission_time)
                     upvotes_on_post = submission.ups
                     comments = submission.comments.list()
                     number_of_comments = len(comments)
