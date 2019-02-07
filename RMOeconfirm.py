@@ -56,7 +56,7 @@ def invest(post_id, bot_name):
             amount = round(balance * percentage_of_balance_invested)
             now = datetime.datetime.now()
             now_time = now.time()
-            if now_time >= time(22, 30) and now_time <= time(6, 00):
+            if now_time >= datetime.time(22, 30) and now_time <= datetime.time(6, 00):
                 log('Investing with a lesser value because its nighttime', bot)
                 amount = round(balance * (percentage_of_balance_invested / 3))
             else:
