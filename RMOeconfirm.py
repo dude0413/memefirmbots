@@ -1,7 +1,7 @@
 from package.config import *
 from package2.config import *
 from package3.config import *
-import time, random, datetime
+import time, random, datetime, os
 version = '0.9'
 
 executive_bot = WB_bot
@@ -15,7 +15,10 @@ now = datetime.datetime.now()
 log_file_name = str(now.strftime('%m.%d') + '..' + str(random.randint(1,100)) + '.txt')
 log_file = open(log_file_name, 'w')
 invested_file_name = 'investedin.txt'
-invested_file = open(invested_file_name, 'w+')
+if os.path.isfile(invested_file_name) == True:
+    print('Found the file')
+else:
+    invested_file = open(invested_file_name, 'w+')
 # Add the post_ids to the file #
 def append_to_invested_file(post_id):
     with open(invested_file_name, 'a') as I:
