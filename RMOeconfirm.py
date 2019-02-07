@@ -2,15 +2,16 @@ from package.config import *
 from package2.config import *
 from package3.config import *
 import time, random, datetime, os
+from datetime import datetime, time
 version = '0.9'
 
 executive_bot = WB_bot
 bot_list = team_2_bot_list
-
+print('Using team 2')
 percentage_of_balance_invested = float(0.8)
-subreddit = executive_bot.subreddit('MemeEconomy')
-now = datetime.datetime.now()
 
+subreddit = executive_bot.subreddit('MemeEconomy')
+now = datetime.now()
 # Setting up Files #
 log_file_name = str(now.strftime('%m.%d') + '..' + str(random.randint(1,100)) + '.txt')
 log_file = open(log_file_name, 'w')
@@ -53,13 +54,19 @@ def invest(post_id, bot_name):
     for comment in investment_submission.comments:
         if comment.author == 'MemeInvestor_bot':
             amount = round(balance * percentage_of_balance_invested)
-            try:
-                comment.reply('!invest ' + str(amount))
-                append_to_invested_file(post_id)
-                log(str(bot_name.user.me()) + ' has invested in ' + str(post_id) + ' with ' + str(amount) + ' memecoins')
-            except praw.exceptions.APIException:
-                print('Got the rate limit, exiting now...')
-                exit()
+            now = datetime.now()
+            now_time = now.time()
+            if now_time >= time(22, 30) and now_time <= time(6, 00):
+                log('Investing with a lesser value because its nighttime', bot)
+                amount = round(balance * (percentage_of_balance_invested / 3))
+            else:
+                try:
+                    comment.reply('!invest ' + str(amount))
+                    append_to_invested_file(post_id)
+                    log(str(bot_name.user.me()) + ' has invested in ' + str(post_id) + ' with ' + str(amount) + ' memecoins')
+                except praw.exceptions.APIException:
+                    print('Got the rate limit, exiting now...')
+                    exit()
 #    announcement_message = 'An algorithm-based firm supports this meme.'
     log('Investing into ' + str(post_id), bot_name)
 
