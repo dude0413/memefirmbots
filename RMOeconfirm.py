@@ -2,7 +2,7 @@ from package.config import *
 from package2.config import *
 from package3.config import *
 import time, random, os
-from datetime import datetime, time
+import datetime
 version = '0.9'
 
 executive_bot = WB_bot
@@ -11,7 +11,7 @@ print('Using team 2')
 percentage_of_balance_invested = float(0.8)
 
 subreddit = executive_bot.subreddit('MemeEconomy')
-now = datetime.now()
+now = datetime.datetime.now()
 # Setting up Files #
 log_file_name = str(now.strftime('%m.%d') + '..' + str(random.randint(1,100)) + '.txt')
 log_file = open(log_file_name, 'w')
@@ -26,7 +26,7 @@ def append_to_invested_file(post_id):
         I.write(post_id + '\n')
 # Log function #
 def log(input, bot_used=executive_bot):
-    now = datetime.now()
+    now = datetime.datetime.now()
     message = str(bot_used.user.me()) + ': ' + str(input) + '\n' + str(now.strftime('%m-%d %H:%M:%S'))
     print(message)
     with open(log_file_name, 'a') as l:
@@ -54,7 +54,7 @@ def invest(post_id, bot_name):
     for comment in investment_submission.comments:
         if comment.author == 'MemeInvestor_bot':
             amount = round(balance * percentage_of_balance_invested)
-            now = datetime.now()
+            now = datetime.datetime.now()
             now_time = now.time()
             if now_time >= time(22, 30) and now_time <= time(6, 00):
                 log('Investing with a lesser value because its nighttime', bot)
@@ -88,8 +88,8 @@ while True:
                     already_invested_investments = list(filter(None, already_invested_investments))
                 if submission_id not in already_invested_investments and investment_boolean == False:
                     submission_created_formatted = submission.created_utc
-                    submission_time = datetime.utcfromtimestamp(submission_created_formatted)
-                    age = (datetime.now() - submission_time)
+                    submission_time = datetime.datetime.utcfromtimestamp(submission_created_formatted)
+                    age = (datetime.datetime.now() - submission_time)
                     upvotes_on_post = submission.ups
                     comments = submission.comments.list()
                     number_of_comments = len(comments)
