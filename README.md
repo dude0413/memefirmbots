@@ -1,5 +1,5 @@
 # memefirmbots
-##Current Files:##
+## Current Files:
 
 **RMOeconfirm.py** - the main script. Controls all the bots when deployed.
 
