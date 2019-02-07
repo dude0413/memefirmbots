@@ -4,8 +4,8 @@ from package3.config import *
 import time, random, datetime
 version = '0.9'
 
-executive_bot = JDR_bot
-bot_list = team_1_bot_list
+executive_bot = WB_bot
+bot_list = team_2_bot_list
 
 percentage_of_balance_invested = float(0.8)
 subreddit = executive_bot.subreddit('MemeEconomy')
@@ -35,7 +35,7 @@ def invest(post_id, bot_name):
     inbox_comment_reply_list = []
     for item in bot_name.inbox.comment_replies(limit=10):
         body = item.body
-        warning_words = ['Firm:', 'The', 'Hey']
+        warning_words = ['Firm:', 'The', 'Hey', 'You']
         if item.author == "MemeInvestor_bot":
             if not any(word in body.split(' ', 1)[0] for word in warning_words):
                 inbox_comment_reply_list.append(body)
@@ -76,7 +76,7 @@ while True:
                         str_number_of_investments = str(number_of_investments)
                     already_invested_investments = r.read().split('n')
                     already_invested_investments = list(filter(None, already_invested_investments))
-                if submission_id not in already_invested_investments:
+                if submission_id not in already_invested_investments and investment_boolean == False:
                     submission_created_formatted = submission.created_utc
                     submission_time = datetime.datetime.utcfromtimestamp(submission_created_formatted)
                     age = (datetime.datetime.now() - submission_time)
