@@ -17,7 +17,7 @@ for bot_name in names_merged_list:
         continue
 percentage_of_balance_invested = float(0.9)
 
-subreddit = my_bot.subreddit('MemeEconomy')
+subreddit = bot.subreddit('MemeEconomy')
 now = datetime.datetime.now()
 # Setting up Files #
 log_file_name = str(now.strftime('%m.%d') + '..' + str(random.randint(1,100)) + '.txt')
@@ -46,7 +46,7 @@ def invest(post_id, bot_name):
     inbox_comment_reply_list = []
     for item in bot_name.inbox.comment_replies(limit=10):
         body = item.body
-        warning_words = ['Firm:', 'The', 'Hey', 'You']
+        warning_words = ['Firm:', 'The', 'Hey', 'You', "Couldn't", "Successfully"]
         if item.author == "MemeInvestor_bot":
             if not any(word in body.split(' ', 1)[0] for word in warning_words):
                 inbox_comment_reply_list.append(body)
