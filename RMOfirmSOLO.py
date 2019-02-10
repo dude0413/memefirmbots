@@ -49,7 +49,8 @@ def invest(post_id, bot_name):
         warning_words = ['Firm:', 'The', 'Hey', 'You', "Couldn't", "Successfully"]
         if item.author == "MemeInvestor_bot":
             if not any(word in body.split(' ', 1)[0] for word in warning_words):
-                inbox_comment_reply_list.append(body)
+                if not 'Overlords' in body.split(' ', 1)[-1]:
+                    inbox_comment_reply_list.append(body)
     inbox_message = inbox_comment_reply_list[0]
     message_breakdown = inbox_message.split(" ")
 
