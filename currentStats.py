@@ -2,6 +2,7 @@ from package.config import *
 from package2.config import *
 from package3.config import *
 merged_list = team_1_bot_list + team_2_bot_list + team_3_bot_list
+names_merged_list = team_1_user_names_udt + team_2_user_names_udt + team_3_user_names_udt
 money_list = []
 for bot in merged_list:
     inbox_comment_reply_list = []
@@ -17,5 +18,4 @@ for bot in merged_list:
     balance = int(message_breakdown[-2].replace("**", "").replace(",", ""))
     money_list.append(balance)
     print(str(bot.user.me()) + ': ' + str(balance) + ' memecoins')
-
 print('\n' + str(sum(money_list)) + ' memecoins total')
