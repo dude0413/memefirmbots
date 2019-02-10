@@ -77,63 +77,65 @@ def invest(post_id, bot_name):
                     exit()
 #    announcement_message = 'An algorithm-based firm supports this meme.'
     log('Investing into ' + str(post_id), bot_name)
+def main():
+    while True:
+        log('Entering Searching Mode with me...')
+        # Tracking and Investing Mode - should take 1 hour #
+        investment_boolean = False
+        while investment_boolean == False:
+            log('Searching...', bot)
+            for submission in subreddit.new(limit=20):
+                submission_id = submission.id
+                # Open the investments txt file and see if the submission id is in there, if not, continue
+                with open(invested_file_name) as r:
+                    for i, l in enumerate(r):
+                        number_of_investments = i + 2
+                        str_number_of_investments = str(number_of_investments)
+                    already_invested_investments = r.read().split('n')
+                    already_invested_investments = list(filter(None, already_invested_investments))
+                if submission_id not in already_invested_investments and investment_boolean == False:
+                    submission_created_formatted = submission.created_utc
+                    submission_time = datetime.datetime.utcfromtimestamp(submission_created_formatted)
+                    age = (datetime.datetime.now() - submission_time)
+                    upvotes_on_post = submission.ups
+                    comments = submission.comments.list()
+                    number_of_comments = len(comments)
+                    submission_title = submission.title
 
-while True:
-    log('Entering Searching Mode with me...')
-    # Tracking and Investing Mode - should take 1 hour #
-    investment_boolean = False
-    while investment_boolean == False:
-        log('Searching...', bot)
-        for submission in subreddit.new(limit=20):
-            submission_id = submission.id
-            # Open the investments txt file and see if the submission id is in there, if not, continue
-            with open(invested_file_name) as r:
-                for i, l in enumerate(r):
-                    number_of_investments = i + 2
-                    str_number_of_investments = str(number_of_investments)
-                already_invested_investments = r.read().split('n')
-                already_invested_investments = list(filter(None, already_invested_investments))
-            if submission_id not in already_invested_investments and investment_boolean == False:
-                submission_created_formatted = submission.created_utc
-                submission_time = datetime.datetime.utcfromtimestamp(submission_created_formatted)
-                age = (datetime.datetime.now() - submission_time)
-                upvotes_on_post = submission.ups
-                comments = submission.comments.list()
-                number_of_comments = len(comments)
-                submission_title = submission.title
-
-                # If the post is less than 60 minutes old... #
-                # More than 25 minutes old #
-                time_boolean_twenty_five_old = age > datetime.timedelta(minutes=25)
-                # Less than 60 minutes old #
-                time_boolean_sixty = age < datetime.timedelta(minutes=60)
-                # Less than 10 minutes old #
-                time_boolean_ten = age < datetime.timedelta(minutes=10)
-                qualification_message = 'The post qualified because it was... '
-                if time_boolean_twenty_five_old == False and upvotes_on_post > 45:
-                    invest(submission_id, bot)
-                    log(qualification_message + 'Less than 25 minutes old and had more than 35 upvotes.')
-                    investment_boolean = True
-                elif time_boolean_sixty == True and time_boolean_twenty_five_old == True and 100 > upvotes_on_post > 55:
-                    invest(submission_id, bot)
-                    log(qualification_message + 'Less than 60 minutes old and had between 100 and 55 upvotes.')
-                    investment_boolean = True
-                elif time_boolean_ten == True and upvotes_on_post > 25:
-                    invest(submission_id, bot)
-                    log(qualification_message + 'Less than 10 minutes old and had more than 25 upvotes.')
-                    investment_boolean = True
+                    # If the post is less than 60 minutes old... #
+                    # More than 25 minutes old #
+                    time_boolean_twenty_five_old = age > datetime.timedelta(minutes=25)
+                    # Less than 60 minutes old #
+                    time_boolean_sixty = age < datetime.timedelta(minutes=60)
+                    # Less than 10 minutes old #
+                    time_boolean_ten = age < datetime.timedelta(minutes=10)
+                    qualification_message = 'The post qualified because it was... '
+                    if time_boolean_twenty_five_old == False and upvotes_on_post > 45:
+                        invest(submission_id, bot)
+                        log(qualification_message + 'Less than 25 minutes old and had more than 35 upvotes.')
+                        investment_boolean = True
+                    elif time_boolean_sixty == True and time_boolean_twenty_five_old == True and 100 > upvotes_on_post > 55:
+                        invest(submission_id, bot)
+                        log(qualification_message + 'Less than 60 minutes old and had between 100 and 55 upvotes.')
+                        investment_boolean = True
+                    elif time_boolean_ten == True and upvotes_on_post > 25:
+                        invest(submission_id, bot)
+                        log(qualification_message + 'Less than 10 minutes old and had more than 25 upvotes.')
+                        investment_boolean = True
+                    else:
+                        continue
                 else:
                     continue
-            else:
-                continue
-    # Wait 4 hours and 1 minute to get the rewards for each of the bots #
-    log('Done with the investment cycle, going into diagnostics...')
-    time.sleep(14430)
+        # Wait 4 hours and 1 minute to get the rewards for each of the bots #
+        log('Done with the investment cycle, going into diagnostics...')
+        time.sleep(14430)
 
-    # Diagnostics mode #
-    # For every bot, copy and paste the final thing into the log file #
-    inbox_comment_reply_list = []
-    for item in bot.inbox.comment_replies(limit=10):
-        if item.author == "MemeInvestor_bot":
-            inbox_comment_reply_list.append(item.body)
-    log(inbox_comment_reply_list[0], bot)
+        # Diagnostics mode #
+        # For every bot, copy and paste the final thing into the log file #
+        inbox_comment_reply_list = []
+        for item in bot.inbox.comment_replies(limit=10):
+            if item.author == "MemeInvestor_bot":
+                inbox_comment_reply_list.append(item.body)
+        log(inbox_comment_reply_list[0], bot)
+if __name__ == "__main__":
+    main()
