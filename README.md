@@ -1,4 +1,5 @@
 # memefirmbots
+MemeFirmBots is an automation script for the subreddit /r/MemeEconomy. The subreddit consists of Redditors submitting posts and then based on how many people invest in the post, the price of the post changes. More investments raises the price of the post (earlier versions of /r/MemeEconomy at least). /memefirmbots is my attempt to use this information to automate an entire firm of bots using one script. 
 ## Current Files:
 
 **RMOeconfirm.py** - the main script. Controls all the bots when deployed.
