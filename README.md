@@ -7,3 +7,5 @@ MemeFirmBots is an automation script for the subreddit /r/MemeEconomy. The subre
 **RMOfirmSOLO.py** - if you wanna automate only one of the bots
 
 **currentFirmStats.py** - gets the amount of memecoins each bot has and adds them together
+
+**sh files** - these are just be being lazy and being able to loop through each of the bots specifically. It got a little difficult with how the Reddit API works so restarting the script completely each time was a solution.
